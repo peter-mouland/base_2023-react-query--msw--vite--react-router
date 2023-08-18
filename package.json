@@ -10,6 +10,7 @@
     "prettier": "prettier . --write",
     "preview": "vite preview",
     "stylelint": "stylelint \"**/*.(css|less|pcss)\"",
+    "test": "vitest",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "lint-staged": "^14.0.0",
     "stylelint-config-standard": "^34.0.0",
     "typescript": "^5.0.2",
-    "vite": "^4.4.9"
+    "vite": "^4.4.9",
+    "vitest": "^0.34.2"
   }
 }

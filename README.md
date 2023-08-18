@@ -1,27 +1,34 @@
-# React + TypeScript + Vite
+# Schroders
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Decision log
 
-Currently, two official plugins are available:
-
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
--   Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
--   Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
--   Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
--   Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+-   **Vite**
+    -   Run the app during development, and build production ready assets
+    -   Pros: quick and easy to set up. no framework, just production ready code.
+    -   Cons: lacks feature set of frameworks
+    -   Consequence: minimal effort needed to migrate to a framework at a later date
+    -   Alternatives: NextJS, GatsbyJS etc. disregarded due to complexity for a _single-page_ SPA.
+-   **Git Hooks**
+    -   Run commands on git commit and push
+    -   Pros: linting is enforced on each commit (using Husky, lint-staged, eslint, prettier, tslint, stylelint)
+    -   Cons: minor setup cost before coding can begin
+    -   Consequence: Slightly longer to complete aim of task - but bugs caught earlier
+    -   Alternatives: _not linting on each commit_. Disregarded so quality is kept high from the start
+-   **ViTest**
+    -   Run unit and integration level tests
+    -   Pros: works without effort with Vite
+    -   Cons: new test-runner, longer to get going... assumption is all test runners are now _very_ similar.
+    -   Consequence: small onboarding to set up
+    -   Alternatives: Jest, node:test
+-   **React-testing-library**
+    -   React renderer and assertion library for Unit and integration level test
+    -   Pros: well known and now de-facto for react. Test as the user interacts by default.
+    -   Cons: none
+    -   Consequence: n/a
+    -   Alternatives: Cypress
+-   **React-query**
+    -   Integrate React smoothly with APIs.
+    -   Pros: handles states (loading, error, pending), cache, stale-time and all things regards data-management
+    -   Cons: Now has 'best practises' which new users (devs) should learn to keep standards high
+    -   Consequence: small onboarding time, but much faster development time
+    -   Alternatives: SWC

@@ -1,3 +1,4 @@
 vite.config.ts
+vitest.config.ts
 .pnp.cjs
 .pnp.loader.mjs
