@@ -10,7 +10,7 @@ import {
 
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
-import * as styles from './app.module.css';
+import styles from './app.module.css';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -21,16 +21,22 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <div>
-                <a href="https://vitejs.dev" target="_blank">
+                <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
                     <img src={viteLogo} className={styles.logo} alt="Vite logo" />
                 </a>
-                <a href="https://react.dev" target="_blank">
+                <a href="https://react.dev" target="_blank" rel="noreferrer">
                     <img src={reactLogo} className={cx(styles.logo, styles.react)} alt="React logo" />
                 </a>
             </div>
             <h1>Vite + React</h1>
             <div className={styles.card}>
-                <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+                <button
+                    onClick={() => {
+                        setCount((count) => count + 1);
+                    }}
+                >
+                    count is {count}
+                </button>
                 <p>
                     Edit <code>src/App.tsx</code> and save to test HMR
                 </p>
