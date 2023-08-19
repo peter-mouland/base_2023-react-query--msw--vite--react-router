@@ -7,7 +7,8 @@
     -   Pros: quick and easy to set up. no framework, just production ready code.
     -   Cons: lacks feature set of frameworks
     -   Consequence: minimal effort needed to migrate to a framework at a later date
-    -   Alternatives: NextJS, GatsbyJS etc. disregarded due to complexity for a _single-page_ SPA.
+    -   Alternatives: NextJS, GatsbyJS, Remix etc. disregarded due to complexity for a _single-page_ SPA,
+                      plus desire to make it easy to determine candidate code vs boilerplate code
 -   **Git Hooks**
     -   Run commands on git commit and push
     -   Pros: linting is enforced on each commit (using Husky, lint-staged, eslint, prettier, tslint, stylelint)
