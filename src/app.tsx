@@ -13,6 +13,7 @@ function App() {
                 <a href="https://www.schroders.com/" target="_blank" rel="noreferrer">
                     <img src={schrodersLogo} className={cx(styles.logo)} alt="Schroders" />
                 </a>
+
                 {/*<span>Schroders</span>*/}
             </h1>
         </QueryClientProvider>
