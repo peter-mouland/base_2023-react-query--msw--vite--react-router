@@ -23,7 +23,9 @@ export const wrapper = ({ children }) => <QueryClientProvider client={queryClien
 
 export const setupApi = (endpoint, { response, method = 'get', status = 200, delay = 0 } = {}) => {
     let resolver;
-    const promise =  new Promise((resolve) => { resolver = resolve; });
+    const promise = new Promise((resolve) => {
+        resolver = resolve;
+    });
     server.use(
         rest[method](endpoint, (req, res, ctx) => {
             const handlers = [ctx.status(status), response ? ctx.json(response) : null, ctx.delay(delay)];
@@ -38,5 +40,5 @@ export const setupApi = (endpoint, { response, method = 'get', status = 200, del
             return res.once(...handlers);
         }),
     );
-    return () => promise
+    return () => promise;
 };

@@ -1,15 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { Exchange } from './types/exchanges.ts';
+
 const FINNHUB_KEY = 'cjg7469r01qohhhj96dgcjg7469r01qohhhj96e0';
 
+const applyToken = (url) => {
+    const [start = '', hash] = url.split('#');
+    const end = hash ? '#' + hash : '';
+    if (start.includes('?')) {
+        return start + '&token=' + FINNHUB_KEY + end;
+    } else {
+        return start + '?token=' + FINNHUB_KEY + end;
+    }
+};
 export function queryFinnHubFn<T>(url: string): Promise<T> {
     if (typeof url === 'undefined') throw Error('queryFinnHubFn: Missing URL for fetch function');
-    return fetch('https://finnhub.io/api/v1' + url, {
+    return fetch('https://finnhub.io/api/v1' + applyToken(url), {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Finnhub-Token': FINNHUB_KEY,
-        },
+        //  use headers when in prod to remove KEY from url
+        // headers: {
+        // 'Content-Type': 'application/json',
+        // 'X-Finnhub-Token': FINNHUB_KEY,
+        // },
     }).then((response) => {
         if (response.ok) {
             // 1xx: Informational
@@ -24,7 +36,7 @@ export function queryFinnHubFn<T>(url: string): Promise<T> {
     });
 }
 
-interface Stock {
+export interface StockSymbol {
     currency: string; // "USD",
     description: string; // "INDIEPUB ENTERTAINMENT INC",
     displaySymbol: string; // "IPUB",
@@ -35,11 +47,16 @@ interface Stock {
     symbol2: string; // "",
     type: string; // "Common Stock"
 }
-export const useFinnHubSymbols = ({ exchange }: { exchange: string }) => {
+
+export const useFinnHubSymbols = ({ exchange, filter }: { exchange: Exchange; filter?: () => string }) => {
     if (typeof exchange === 'undefined') throw Error('useFinnHubSymbols: Missing "exchange" string');
     // https://finnhub.io/api/v1/stock/symbol?exchange=US
-    const queryStockFn = () => queryFinnHubFn<Stock>(`/stock/symbol?exchange=${exchange}`);
-    return useQuery({ queryKey: ['finhub', 'stock', exchange], queryFn: queryStockFn });
+    const queryStockFn = () => queryFinnHubFn<StockSymbol[]>(`/stock/symbol?exchange=${exchange}`);
+    return useQuery({
+        queryKey: ['finhub', 'stock', exchange],
+        queryFn: queryStockFn,
+        select: filter,
+    });
 };
 
 interface Candle {

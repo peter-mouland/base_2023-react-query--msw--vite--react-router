@@ -2,4 +2,4 @@
 
 export const handlers = [
     //    default handlers
-]
+];
