@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueries } from '@tanstack/react-query';
 
 import { Exchange } from './types/exchanges.ts';
 
@@ -68,12 +68,37 @@ interface Candle {
     v: number[];
     s: 'ok';
 }
-export const useFinnHubCandles = ({ symbol, from, to, resolution = 1 }) => {
-    if (typeof symbol === 'undefined') throw Error("useFinnHubCandles: Missing 'symbol' string");
+
+let count = 0;
+export const useFinnHubCandles = ({ symbols, from, to, resolution = 'W' }) => {
+    if (typeof symbols === 'undefined') throw Error("useFinnHubCandles: Missing 'symbols' string[]");
     if (typeof from === 'undefined') throw Error("useFinnHubCandles: Missing 'from' date ms");
     if (typeof to === 'undefined') throw Error("useFinnHubCandles: Missing 'to' date ms");
     // https://finnhub.io/api/v1/stock/candle?symbol=AAPL&resolution=1&from=1679476980&to=1679649780
-    const queryStockFn = () =>
+    const queryStockFn = (symbol) =>
         queryFinnHubFn<Candle>(`/stock/candle?symbol=${symbol}&from=${from}&to=${to}&resolution=${resolution}`);
-    return useQuery({ queryKey: ['finhub', 'candle', symbol, from, to, resolution], queryFn: queryStockFn });
+
+    const result = useQueries({
+        queryFn: (...args) => console.log(...args) || queryStockFn(symbol),
+        queries: symbols.map((symbol) => {
+            return {
+                queryKey: ['finhub', 'candle', from, to, resolution, symbol],
+                queryFn: (...args) => console.log(...args) || queryStockFn(symbol),
+                staleTime: Infinity,
+                retry: 1, // Will retry failed requests 10 times before displaying an error
+                enabled: symbols && from && to && count < 100, //symbols && symbols.length > 0,
+                select: (candles) =>
+                    candles.c?.map((c, i) => ({
+                        c,
+                        h: candles.h[i],
+                        l: candles.l[i],
+                        o: candles.o[i],
+                        t: candles.t[i],
+                        v: candles.v[i],
+                    })),
+            };
+        }),
+    });
+    count++;
+    return result;
 };

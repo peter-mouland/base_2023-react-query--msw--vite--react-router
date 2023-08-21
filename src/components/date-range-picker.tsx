@@ -1,19 +1,16 @@
 import * as React from 'react';
 import { CalendarIcon } from '@radix-ui/react-icons';
-import { addDays, format } from 'date-fns';
-import { DateRange } from 'react-day-picker';
+import { format } from 'date-fns';
 
 import { cn } from 'src/lib/utils';
 import { Button } from 'src/design-system/ui/button';
 import { Calendar } from 'src/design-system/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from 'src/design-system/ui/popover';
+import { useDate } from './date-range-picker.utils.ts';
 
+// eslint-disable-next-line react/prop-types
 export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTMLDivElement>) {
-    const [date, setDate] = React.useState<DateRange | undefined>({
-        from: new Date(2023, 0, 20),
-        to: addDays(new Date(2023, 0, 20), 20),
-    });
-
+    const { params, updateDateFilter } = useDate(); // dog food our public API
     return (
         <div className={cn('grid gap-2', className)}>
             <Popover>
@@ -23,17 +20,17 @@ export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTML
                         variant={'outline'}
                         className={cn(
                             'w-[260px] justify-start text-left font-normal',
-                            !date && 'text-muted-foreground',
+                            !params && 'text-muted-foreground',
                         )}
                     >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date?.from ? (
-                            date.to ? (
+                        {params?.dateFrom ? (
+                            params.dateTo ? (
                                 <>
-                                    {format(date.from, 'LLL dd, y')} - {format(date.to, 'LLL dd, y')}
+                                    {format(params.dateFrom, 'LLL dd, y')} - {format(params.dateTo, 'LLL dd, y')}
                                 </>
                             ) : (
-                                format(date.from, 'LLL dd, y')
+                                format(params.dateFrom, 'LLL dd, y')
                             )
                         ) : (
                             <span>Pick a date</span>
@@ -44,9 +41,9 @@ export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTML
                     <Calendar
                         initialFocus
                         mode="range"
-                        defaultMonth={date?.from}
-                        selected={date}
-                        onSelect={setDate}
+                        defaultMonth={params?.dateFrom}
+                        selected={{ from: params?.dateFrom, to: params?.dateTo }}
+                        onSelect={updateDateFilter}
                         numberOfMonths={2}
                     />
                 </PopoverContent>
