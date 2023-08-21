@@ -4,7 +4,8 @@ import { Chart } from 'react-charts';
 import { cn } from 'src/lib/utils';
 import { SymbolsComboBox, useSymbols } from './components/symbols-combo-box';
 import { Card, CardContent, CardHeader, CardTitle } from './design-system/ui/card';
-import { CalendarDateRangePicker, useDate } from './components/date-range-picker.tsx';
+import { CalendarDateRangePicker } from './components/date-range-picker.tsx';
+import { useDate } from './components/date-range-picker.utils.ts';
 import { useFinnHubCandles, useFinnHubSymbols } from './services/finhub';
 
 function MyChart({ data }: { data: array }) {
@@ -122,7 +123,7 @@ function App() {
                                                     {candle?.data?.length > 0 ? (
                                                         <MyChart data={chartData.data} />
                                                     ) : candle?.isError ? (
-                                                        <span>Error: {candles.error.message}</span>
+                                                        <span>Error: {candle?.error?.message}</span>
                                                     ) : candle?.isLoading ? (
                                                         <span>Loading...</span>
                                                     ) : (

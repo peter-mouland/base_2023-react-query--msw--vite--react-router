@@ -69,24 +69,21 @@ interface Candle {
     s: 'ok';
 }
 
-let count = 0;
 export const useFinnHubCandles = ({ symbols, from, to, resolution = 'W' }) => {
-    if (typeof symbols === 'undefined') throw Error("useFinnHubCandles: Missing 'symbols' string[]");
+    if (typeof symbols === 'undefined') throw Error("useFinnHubCandles: Missing 'symbols' array<string>");
     if (typeof from === 'undefined') throw Error("useFinnHubCandles: Missing 'from' date ms");
     if (typeof to === 'undefined') throw Error("useFinnHubCandles: Missing 'to' date ms");
     // https://finnhub.io/api/v1/stock/candle?symbol=AAPL&resolution=1&from=1679476980&to=1679649780
     const queryStockFn = (symbol) =>
         queryFinnHubFn<Candle>(`/stock/candle?symbol=${symbol}&from=${from}&to=${to}&resolution=${resolution}`);
 
-    const result = useQueries({
-        queryFn: (...args) => console.log(...args) || queryStockFn(symbol),
+    return useQueries({
         queries: symbols.map((symbol) => {
             return {
                 queryKey: ['finhub', 'candle', from, to, resolution, symbol],
-                queryFn: (...args) => console.log(...args) || queryStockFn(symbol),
+                queryFn: () => queryStockFn(symbol),
                 staleTime: Infinity,
-                retry: 1, // Will retry failed requests 10 times before displaying an error
-                enabled: symbols && from && to && count < 100, //symbols && symbols.length > 0,
+                enabled: !!(symbols && from && to),
                 select: (candles) =>
                     candles.c?.map((c, i) => ({
                         c,
@@ -99,6 +96,4 @@ export const useFinnHubCandles = ({ symbols, from, to, resolution = 'W' }) => {
             };
         }),
     });
-    count++;
-    return result;
 };
