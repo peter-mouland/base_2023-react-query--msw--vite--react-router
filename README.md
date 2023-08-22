@@ -12,6 +12,8 @@ This app is interactive; the user can select up to 3 symbols and it will Draw a 
 
 -   `yarn test`
 
+A range of testing has been showcased, before going to prod, more UI tests, especially e2e using Playwright or Cypress would be appropriate
+
 ### Bugs
 
 -   The dates returned by the FinnHub API do not align with the dates chosen

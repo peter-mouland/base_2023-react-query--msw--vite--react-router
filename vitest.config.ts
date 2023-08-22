@@ -7,6 +7,7 @@ export default mergeConfig(
         test: {
             environment: 'jsdom',
             setupFiles: ['./test-setup/test-setup.ts'],
+            // alias: [{ find: /^d3-time-format$/, replacement: '@visx/scale/esm/index.js' }]
         },
     }),
 );

@@ -5,7 +5,7 @@ export function useSymbols() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const symbolFilter = searchParams.get('symbolFilter')?.toUpperCase();
-    const symbols = symbol.split(':').filter(Boolean).slice(0, 3); // max 3 symbols
+    const symbols = symbol.split(':').filter(Boolean).slice(0, 3).sort(); // max 3 symbols
 
     const filterFunction = (stocks) => stocks.filter((stock) => stock.symbol?.toUpperCase().startsWith(symbolFilter));
 

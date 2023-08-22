@@ -21,6 +21,8 @@
     "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-query": "beta",
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/user-event": "^14.4.3",
     "autoprefixer": "^10.4.15",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.3.2",

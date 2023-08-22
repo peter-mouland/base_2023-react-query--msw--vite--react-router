@@ -18,10 +18,10 @@ export function LineChart({ data }: { data: array }) {
 }
 
 interface ChartCardProps {
-    data: array;
+    data?: array;
     symbol: string;
-    error: string;
-    isLoading: boolean;
+    error?: string;
+    isLoading?: boolean;
 }
 
 export function ChartCard({ symbol, data, error, isLoading }: ChartCardProps) {

@@ -21,6 +21,7 @@ beforeAll(() => {
 });
 
 afterEach(() => {
+    window.history.pushState({}, 'Test page', '/');
     queryClient.clear();
     // Reset any runtime handlers tests may use.
     server.resetHandlers();

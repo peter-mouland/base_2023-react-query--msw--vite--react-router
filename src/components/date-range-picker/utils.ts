@@ -4,7 +4,6 @@ export function useDate() {
     const [searchParams, setSearchParams] = useSearchParams();
     const dateFrom = searchParams.get('dateFrom');
     const dateTo = searchParams.get('dateTo');
-
     const updateDateFilter = (value) => {
         setSearchParams((prev) => ({
             ...Object.fromEntries(prev),
