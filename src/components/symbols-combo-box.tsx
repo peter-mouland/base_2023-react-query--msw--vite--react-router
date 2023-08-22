@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useParams, useSearchParams, generatePath, useNavigate } from 'react-router-dom';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
-import { cn } from 'src/lib/utils';
+import { cn } from 'src/design-system/lib/utils';
 import { Button } from 'src/design-system/ui/button';
 import {
     Command,
@@ -14,37 +13,9 @@ import {
 } from 'src/design-system/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from 'src/design-system/ui/popover';
 import type { StockSymbol } from '../services/finhub';
+import { useSymbols } from './symbols-combo-box.utils.ts';
 
 type Options = StockSymbol[];
-
-export function useSymbols() {
-    const { symbol = '' } = useParams();
-    const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const symbolFilter = searchParams.get('symbolFilter')?.toUpperCase();
-    const symbols = symbol.split(':').filter(Boolean);
-
-    // "return a filter Function" vs "return a filter String"
-    // Decision: Return Function, which increases flexibility, but also increases complexity (but only slightly).
-    // Reason: 'useFinnHubSymbols' should be reusable and extensible without increasing API footprint
-    // Revisit: When more filter functions are _too_ complex.
-    const filterFunction = (stocks) => stocks.filter((stock) => stock.symbol?.toUpperCase().startsWith(symbolFilter));
-
-    const updateSymbolFilter = (value) => {
-        setSearchParams((prev) => ({ ...Object.fromEntries(prev), symbolFilter: value.toUpperCase() }));
-    };
-
-    const updateSymbol = (value) => {
-        const newSelection = symbols.find((c) => c === value)
-            ? symbols.filter((c) => c !== value)
-            : [...new Set([...symbols, value].filter(Boolean).sort())]; // sot to reduce url combinations and make it more predictable
-        const path = generatePath('/:symbol/' + location.search, { symbol: newSelection.join(':') });
-        navigate(path);
-        // setSearchParams({ symbolFilter: symbolFilter, symbol: newSelection });
-    };
-
-    return { params: { symbolFilter, symbol: symbols }, filterFunction, updateSymbolFilter, updateSymbol };
-}
 
 export function SymbolsComboBox({ options }: { options: Options }) {
     const [open, setOpen] = React.useState(false);

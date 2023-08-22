@@ -1,6 +1,14 @@
 # Schroders
 
+## Quick Start
+
+-   `yarn`
+-   `yarn dev`
+-   [http://localhost:5173/APLE/?symbolFilter=APL&dateFrom=1691103600000&dateTo=1693782000000](http://localhost:5173/APLE/?symbolFilter=APL&dateFrom=1691103600000&dateTo=1693782000000)
+
 ## Decision log
+
+### Technologies
 
 -   **Vite**
     -   Run the app during development, and build production ready assets
@@ -33,3 +41,31 @@
     -   Cons: Now has 'best practises' which new users (devs) should learn to keep standards high
     -   Consequence: small onboarding time, but much faster development time
     -   Alternatives: SWC
+-   **React-charts**
+    -   A simple Charting library
+    -   Pros: handles drawing charts from a given data structure
+    -   Cons: have to learn in and mutate API response into desired structure
+    -   Consequence: small overhead as results are reformatted
+    -   Alternative: d3 (much more flexibility, much higher learning curve)
+-   **Shadcn**
+    -   A fully accessible component library
+    -   Pros: headless first approach makes every component highly customisable
+    -   Cons: uses Tailwind, which is new to me
+    -   Consequence: additional learning required for Shadcn + tailwind
+    -   Alternative: use Radix-UI, Chakra-UI, etx
+
+### Coding
+
+-   "URLs to store state" vs "React handling State"
+    -   Decision: URLs
+    -   Reason: Allows view to be shareable
+    -   Consequence: no custom global state management system added yet
+    -   Revisit: When the app grows and global state is truly needed
+-   "Fetch data at page level" vs "within components"
+    -   Decision: Page level, which forces more upfront thinking about interactions, but long-term simplicity is achieved
+    -   Reason: keeping component dumb for as long as possible makes extending capabilities easier
+    -   Revisit: When it becomes prohibitive. Whiteboard problem to reduce complexity before undoing
+-   useSymbols "filter Function" vs "filter String"
+    -   Decision: Function, which increases flexibility, but also increases complexity (but only slightly).
+    -   Reason: 'useFinnHubSymbols' should be reusable and extensible without increasing API footprint
+    -   Revisit: When more filter functions are _too_ complex.

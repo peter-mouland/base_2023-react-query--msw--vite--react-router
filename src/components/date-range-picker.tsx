@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
-import { cn } from 'src/lib/utils';
+import { cn } from 'src/design-system/lib/utils';
 import { Button } from 'src/design-system/ui/button';
 import { Calendar } from 'src/design-system/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from 'src/design-system/ui/popover';
