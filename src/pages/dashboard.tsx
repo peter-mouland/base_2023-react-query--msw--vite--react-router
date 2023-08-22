@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import { cn } from '../design-system/lib/utils.ts';
-import { SymbolsComboBox } from '../components/symbols-combo-box.tsx';
-import { useSymbols } from '../components/symbols-combo-box.utils.ts';
-import { CalendarDateRangePicker } from '../components/date-range-picker.tsx';
-import { useDate } from '../components/date-range-picker.utils.ts';
 import { useFinnHubCandles, useFinnHubSymbols } from '../services/finhub';
-import { ChartCard } from '../components/chart-card.tsx';
+import { SymbolsComboBox } from '../components/symbols-combo-box';
+import { useSymbols } from '../components/symbols-combo-box/utils.ts';
+import { CalendarDateRangePicker } from '../components/date-range-picker';
+import { useDate } from '../components/date-range-picker/utils.ts';
+import { ChartCard } from '../components/chart-card';
 
 function Dashboard() {
     const { filterFunction, params, updateSymbol } = useSymbols();

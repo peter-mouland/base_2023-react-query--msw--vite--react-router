@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Chart } from 'react-charts';
-import { Card, CardContent, CardHeader, CardTitle } from '../design-system/ui/card.tsx';
+import { Card, CardContent, CardHeader, CardTitle } from '../../design-system/ui/card.tsx';
 
 export function LineChart({ data }: { data: array }) {
     const primaryAxis = React.useMemo(() => ({ getValue: (datum) => new Date(datum.t) }), []);

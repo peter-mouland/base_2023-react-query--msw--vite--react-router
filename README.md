@@ -1,10 +1,22 @@
 # Schroders
 
+This app is interactive; the user can select up to 3 symbols and it will Draw a time series chart for each Symbols selected.
+
 ## Quick Start
 
 -   `yarn`
 -   `yarn dev`
 -   [http://localhost:5173/APLE/?symbolFilter=APL&dateFrom=1691103600000&dateTo=1693782000000](http://localhost:5173/APLE/?symbolFilter=APL&dateFrom=1691103600000&dateTo=1693782000000)
+
+### Testing
+
+-   `yarn test`
+
+### Bugs
+
+-   The dates returned by the FinnHub API do not align with the dates chosen
+    -   The API states that only a years data is available on the free version, perhaps this is related?
+    -   This is not ideal, but for an MVP/demo purposes it can give us enough feedback for the UI
 
 ## Decision log
 

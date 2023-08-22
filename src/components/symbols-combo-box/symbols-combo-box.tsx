@@ -12,8 +12,8 @@ import {
     CommandList,
 } from 'src/design-system/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from 'src/design-system/ui/popover';
-import type { StockSymbol } from '../services/finhub';
-import { useSymbols } from './symbols-combo-box.utils.ts';
+import type { StockSymbol } from '../../services/finhub';
+import { useSymbols } from './utils.ts';
 
 type Options = StockSymbol[];
 

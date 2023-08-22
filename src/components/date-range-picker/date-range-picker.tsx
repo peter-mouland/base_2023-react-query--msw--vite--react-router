@@ -6,7 +6,7 @@ import { cn } from 'src/design-system/lib/utils';
 import { Button } from 'src/design-system/ui/button';
 import { Calendar } from 'src/design-system/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from 'src/design-system/ui/popover';
-import { useDate } from './date-range-picker.utils.ts';
+import { useDate } from './utils.ts';
 
 // eslint-disable-next-line react/prop-types
 export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTMLDivElement>) {
