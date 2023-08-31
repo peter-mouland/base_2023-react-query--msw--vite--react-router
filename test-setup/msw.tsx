@@ -1,6 +1,10 @@
+import * as React from 'react';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { rest } from 'msw';
+import type { RestRequest } from 'msw';
+
 import { server } from './mocks/server';
+import { ResponseOk, ResponseError } from '../src/ts-utils/http-codes';
 
 export const queryCache = new QueryCache();
 export const queryClient = new QueryClient({
@@ -9,21 +13,31 @@ export const queryClient = new QueryClient({
             retry: false,
         },
     },
-    logger: {
-        log: console.log,
-        warn: console.warn,
-        // ✅ no more errors on the console for tests
-        error: function hideError() {
-            /**/
-        },
-    },
 });
 
 export const wrapper = ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 
-export const setupApi = (endpoint, { response, method = 'get', status = 200, delay = 0 } = {}) => {
+type Methods = 'get' | 'post' | 'put' | 'delete' | 'patch'
+interface ApiOptionsOk {
+    response: unknown;
+    method?: Methods;
+    status?: ResponseOk;
+    delay?: number;
+}
+interface ApiOptionsError {
+    response?: unknown;
+    method?: Methods;
+    status: ResponseError;
+    delay?: number;
+}
+type ApiOptions = ApiOptionsOk | ApiOptionsError
+interface ResolvedResponse {
+    response: unknown,
+    request: RestRequest
+}
+export const setupApi = (endpoint: string, { response = null, method = 'get', status = 200, delay = 0 } : ApiOptions = { response:null}) => {
     let resolver;
-    const promise = new Promise((resolve) => {
+    const promise = new Promise<ResolvedResponse>((resolve) => {
         resolver = resolve;
     });
     server.use(

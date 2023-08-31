@@ -10,7 +10,7 @@ describe('useDate', () => {
         const { result } = renderHook(() => useDate(), {
             wrapper: ({ children }) => <MemoryRouter>{children}</MemoryRouter>,
         });
-        expect(result.current.params).toEqual({ dateFrom: null, dateTo: null });
+        expect(result.current.params).toEqual({ dateFrom: undefined, dateTo: undefined });
         expect(result.current.updateDateFilter).toBeTypeOf('function');
     });
     test('reads location params', async () => {
@@ -20,7 +20,7 @@ describe('useDate', () => {
             wrapper: ({ children }) =>
                 wrapperWithRouter(
                     <Routes>
-                        <Route path="/:symbol" exact={false} element={children} />
+                        <Route path="/:symbol" element={children} />
                         <Route path="*" element={'Route not matched'} />
                     </Routes>,
                     { route: '/GOOG?dateFrom=' + from + '&dateTo=' + to },
@@ -28,8 +28,8 @@ describe('useDate', () => {
         });
 
         expect(result.current.params).toEqual({
-            dateFrom: new Date(parseInt(from, 10)),
-            dateTo: new Date(parseInt(to, 10)),
+            dateFrom: new Date(from),
+            dateTo: new Date(to),
         });
     });
     test('updates location params', async () => {
@@ -40,7 +40,7 @@ describe('useDate', () => {
             wrapper: ({ children }) =>
                 wrapperWithRouter(
                     <Routes>
-                        <Route path="/:symbol" exact={false} element={children} />
+                        <Route path="/:symbol" element={children} />
                         <Route path="*" element={'Route not matched'} />
                     </Routes>,
                     { route: '/GOOG?dateFrom=' + from + '&dateTo=' + to },
@@ -48,12 +48,12 @@ describe('useDate', () => {
         });
 
         const oneDay = 1000 * 60 * 60 * 24;
-        result.current.updateDateFilter({ from: from + oneDay, to: to + oneDay });
+        result.current.updateDateFilter({ from: new Date(from + oneDay), to: new Date(to + oneDay) });
         // wait for hook to execute (async)
         await waitFor(() => {
             expect(result.current.params).toEqual({
-                dateFrom: new Date(parseInt(from + oneDay, 10)),
-                dateTo: new Date(parseInt(to + oneDay, 10)),
+                dateFrom: new Date(from + oneDay),
+                dateTo: new Date(to + oneDay),
             });
         });
     });
@@ -64,14 +64,14 @@ describe('useDate', () => {
             wrapper: ({ children }) =>
                 wrapperWithRouter(
                     <Routes>
-                        <Route path="/:symbol" exact={false} element={children} />
+                        <Route path="/:symbol" element={children} />
                         <Route path="*" element={'Route not matched'} />
                     </Routes>,
                     { route: '/GOOG?other=test&dateFrom=' + from + '&dateTo=' + to },
                 ),
         });
 
-        result.current.updateDateFilter({ from: from, to: to });
+        result.current.updateDateFilter({ from: new Date(from), to: new Date(to) });
         // wait for hook to execute (async)
         await waitFor(() => {
             expect(location.search).toEqual('?other=test&dateFrom=' + from + '&dateTo=' + to);

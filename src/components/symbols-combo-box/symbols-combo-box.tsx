@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
-import { cn } from 'src/design-system/lib/utils';
-import { Button } from 'src/design-system/ui/button';
+import { cn } from '../../design-system/lib/utils';
+import { Button } from '../../design-system/ui/button';
 import {
     Command,
     CommandEmpty,
@@ -10,8 +10,8 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from 'src/design-system/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from 'src/design-system/ui/popover';
+} from '../../design-system/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '../../design-system/ui/popover';
 import type { StockSymbol } from '../../services/finhub';
 import { useSymbols } from './utils.ts';
 
@@ -20,7 +20,7 @@ type Options = StockSymbol[];
 export function SymbolsComboBox({ options }: { options: Options }) {
     const [open, setOpen] = React.useState(false);
     const { params, updateSymbol, updateSymbolFilter } = useSymbols(); // dog food our public API
-    const emptyLabel = options.data?.length === 0 ? 'No Symbol found.' : 'Too many Symbols, please filter further';
+    const emptyLabel = options.length === 0 ? 'No Symbol found.' : 'Too many Symbols, please filter further';
     const label = 'Select Symbol...';
 
     return (
@@ -46,7 +46,7 @@ export function SymbolsComboBox({ options }: { options: Options }) {
                             {options.map((option) => (
                                 <CommandItem
                                     key={option.symbol}
-                                    onSelect={(currentValue) => {
+                                    onSelect={(currentValue: string) => {
                                         updateSymbol(currentValue.toUpperCase());
                                         setOpen(false);
                                     }}

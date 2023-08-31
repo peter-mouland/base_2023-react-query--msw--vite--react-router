@@ -23,7 +23,7 @@ describe('useSymbols', () => {
             wrapper: ({ children }) =>
                 wrapperWithRouter(
                     <Routes>
-                        <Route path="/:symbol" exact={false} element={children} />
+                        <Route path="/:symbol" element={children} />
                         <Route path="*" element={'Route not matched'} />
                     </Routes>,
                     { route: '/' + symbol + '?symbolFilter=' + symbolFilter },
@@ -40,7 +40,7 @@ describe('useSymbols', () => {
             wrapper: ({ children }) =>
                 wrapperWithRouter(
                     <Routes>
-                        <Route path="/:symbol" exact={false} element={children} />
+                        <Route path="/:symbol" element={children} />
                         <Route path="*" element={'Route not matched'} />
                     </Routes>,
                     { route: '/' + symbol + ':' + symbol2 },
@@ -59,7 +59,7 @@ describe('useSymbols', () => {
             wrapper: ({ children }) =>
                 wrapperWithRouter(
                     <Routes>
-                        <Route path="/:symbol" exact={false} element={children} />
+                        <Route path="/:symbol" element={children} />
                         <Route path="*" element={'Route not matched'} />
                     </Routes>,
                     { route: '/' + symbol + ':' + symbol2 + ':' + symbol3 + ':' + symbol4 },
@@ -77,20 +77,30 @@ describe('useSymbols', () => {
             wrapper: ({ children }) =>
                 wrapperWithRouter(
                     <Routes>
-                        <Route path="/:symbol" exact={false} element={children} />
+                        <Route path="/:symbol" element={children} />
                         <Route path="*" element={'Route not matched'} />
                     </Routes>,
                     { route: '/GOOG?symbolFilter=a' },
                 ),
         });
 
+        const defaultSymbol = {
+            currency: '',
+            displaySymbol: '',
+            description: '',
+            figi: '',
+            type: '',
+            symbol2: '',
+            mic: '',
+            shareClassFIGI: '',
+        };
         expect(
             result.current.filterFunction([
-                { symbol: symbol },
-                { symbol: symbol2 },
-                { symbol: symbol3 },
-                { symbol: symbol4 },
+                { ...defaultSymbol, symbol: symbol },
+                { ...defaultSymbol, symbol: symbol2 },
+                { ...defaultSymbol, symbol: symbol3 },
+                { ...defaultSymbol, symbol: symbol4 },
             ]),
-        ).toEqual([{ symbol }]);
+        ).toEqual([{ ...defaultSymbol, symbol }]);
     });
 });

@@ -2,10 +2,10 @@ import * as React from 'react';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
-import { cn } from 'src/design-system/lib/utils';
-import { Button } from 'src/design-system/ui/button';
-import { Calendar } from 'src/design-system/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from 'src/design-system/ui/popover';
+import { cn } from '../../design-system/lib/utils';
+import { Button } from '../../design-system/ui/button';
+import { Calendar } from '../../design-system/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '../../design-system/ui/popover';
 import { useDate } from './utils.ts';
 
 // eslint-disable-next-line react/prop-types
@@ -41,8 +41,8 @@ export function CalendarDateRangePicker({ className }: React.HTMLAttributes<HTML
                     <Calendar
                         initialFocus
                         mode="range"
-                        defaultMonth={params?.dateFrom}
-                        selected={{ from: params?.dateFrom, to: params?.dateTo }}
+                        defaultMonth={params.dateFrom}
+                        selected={{ from: params.dateFrom, to: params.dateTo }}
                         onSelect={updateDateFilter}
                         numberOfMonths={2}
                     />

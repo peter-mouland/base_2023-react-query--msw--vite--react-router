@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { Chart } from 'react-charts';
-import { Card, CardContent, CardHeader, CardTitle } from '../../design-system/ui/card.tsx';
+import type { DefaultError } from '@tanstack/react-query';
 
-export function LineChart({ data }: { data: array }) {
-    const primaryAxis = React.useMemo(() => ({ getValue: (datum) => new Date(datum.t) }), []);
-    const secondaryAxes = React.useMemo(() => [{ getValue: (datum) => datum.c, elementType: 'line' }], []);
+import { Card, CardContent, CardHeader, CardTitle } from '../../design-system/ui/card.tsx';
+import type { Candles } from '../../services/finhub';
+
+export function LineChart({ data }: { data: Candles[] }) {
+    const primaryAxis = React.useMemo(() => ({ getValue: (datum: Candles) => new Date(datum.t) }), []);
+    const secondaryAxes = React.useMemo(() => [{ getValue: (datum: Candles) => datum.c }], []);
 
     return (
         <Chart
@@ -18,9 +21,9 @@ export function LineChart({ data }: { data: array }) {
 }
 
 interface ChartCardProps {
-    data?: array;
+    data?: Candles[];
     symbol: string;
-    error?: string;
+    error: DefaultError | null;
     isLoading?: boolean;
 }
 
@@ -48,13 +51,13 @@ export function ChartCard({ symbol, data, error, isLoading }: ChartCardProps) {
                         <LineChart
                             data={[
                                 {
-                                    data: data,
+                                    data,
                                     label: symbol + ' Close Price',
                                 },
                             ]}
                         />
                     ) : error ? (
-                        <span>Error: {candle?.error?.message}</span>
+                        <span>Error: {error.message}</span>
                     ) : isLoading ? (
                         <span>Loading...</span>
                     ) : (

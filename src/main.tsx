@@ -8,12 +8,12 @@ import './main.css';
 
 const queryClient = new QueryClient();
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/:symbol?" element={<Dashboard />} isExact={false} />
+                    <Route path="/:symbol?" element={<Dashboard />} />
                 </Routes>
             </BrowserRouter>
         </QueryClientProvider>

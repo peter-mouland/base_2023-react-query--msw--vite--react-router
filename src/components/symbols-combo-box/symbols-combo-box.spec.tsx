@@ -8,7 +8,7 @@ import { SymbolsComboBox } from './index.ts';
 const TestContext = ({ children }) => (
     <BrowserRouter>
         <Routes>
-            <Route path="/:symbol?" element={children} isExact={false} />
+            <Route path="/:symbol?" element={children} />
         </Routes>
     </BrowserRouter>
 );

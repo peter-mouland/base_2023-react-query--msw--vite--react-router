@@ -1,12 +1,12 @@
 import { expect, test, describe } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { queryFinnHubFn, useFinnHubSymbols, useFinnHubCandles } from './index.ts';
 import { wrapper, setupApi } from '../../../test-setup/msw.tsx';
 
 describe('useQueryFinnHub', () => {
     test('invalid params', async () => {
+        // @ts-expect-error invalid params
         await expect(() => queryFinnHubFn()).toThrowError(/queryFinnHubFn/);
     });
     test('success', async () => {
@@ -29,7 +29,8 @@ describe('useFinnHubSymbols', () => {
     test('throws w/ missing required options', async () => {
         const response = { answer: 42 };
         setupApi('*/stock/symbol', { response });
-        await expect(() => useFinnHubSymbols('/any')).toThrow(/useFinnHubSymbols: Missing "exchange" string/);
+        // @ts-expect-error invalid params
+        await expect(() => useFinnHubSymbols({})).toThrow(/useFinnHubSymbols: Missing "exchange" string/);
     });
     test('url params created from options', async () => {
         const response = { answer: 42 };
@@ -63,16 +64,20 @@ describe('useFinnHubSymbols', () => {
 describe('useFinnHubCandles', () => {
     test('throws w/ missing required symbol option', async () => {
         setupApi('*/stock/symbol');
+
+        // @ts-expect-error invalid params
         await expect(() => useFinnHubCandles({})).toThrow(/useFinnHubCandles: Missing 'symbols' array<string>/);
     });
     test('throws w/ missing required from option', async () => {
         setupApi('*/stock/symbol');
+        // @ts-expect-error invalid params
         await expect(() => useFinnHubCandles({ symbols: ['APL'] })).toThrow(
             /useFinnHubCandles: Missing 'from' date ms/,
         );
     });
     test('throws w/ missing required to option', async () => {
         setupApi('*/stock/symbol');
+        // @ts-expect-error invalid params
         await expect(() => useFinnHubCandles({ symbols: ['APL'], from: Date.now() })).toThrow(
             /useFinnHubCandles: Missing 'to' date ms/,
         );
